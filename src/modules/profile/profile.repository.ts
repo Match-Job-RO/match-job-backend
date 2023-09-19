@@ -54,6 +54,9 @@ export class ProfileRepository {
                 image: updateProfileDto.image,
                 phone: updateProfileDto.phone,
                 userId: updateProfileDto.userId,
+                followedTags: {
+                    connect: updateProfileDto.followedTags,
+                },
             },
         });
 
