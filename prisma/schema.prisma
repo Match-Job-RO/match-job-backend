@@ -1,39 +1,36 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl= env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
   name      String?
   password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   profiles  Profile?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
 }
 
 model Profile {
-  id           Int              @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   bio          String?
   image        String?
   phone        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  userId       Int       @unique
+  genre        GenreEnum
+  address      Address[]
   posts        Post[]
+  user         User      @relation(fields: [userId], references: [id])
   followedTags Tag[]
-  address     Address[]
-  genres       GenreEnum
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
-  user         User             @relation(fields: [userId], references: [id])
-  userId       Int              @unique
 }
 
 model Post {
@@ -41,33 +38,33 @@ model Post {
   title     String
   content   String
   postType  PostTypeEnum
-  tags      Tag[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
-  profile   Profile      @relation(fields: [profileId], references: [id])
   profileId Int
+  profile   Profile      @relation(fields: [profileId], references: [id])
+  tags      Tag[]        @relation("PostToTag")
 }
 
 model Tag {
   id        Int      @id @default(autoincrement())
   name      String
-  posts     Post[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  profile   Profile  @relation(fields: [profileId], references: [id])
   profileId Int
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  posts     Post[]   @relation("PostToTag")
 }
 
 model Address {
-  id             Int              @id @default(autoincrement())
-  street         String
-  number         String
-  neighborhood   String
-  postalCode     String
-  profile        Profile          @relation(fields: [profileId], references: [id])
-  profileId      Int
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
+  id           Int      @id @default(autoincrement())
+  street       String
+  number       String
+  neighborhood String
+  postalCode   String
+  profileId    Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  profile      Profile  @relation(fields: [profileId], references: [id])
 }
 
 enum GenreEnum {
