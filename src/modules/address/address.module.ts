@@ -1,10 +1,10 @@
 import { Module } from "@nestjs/common";
-import { ProfileService } from "./profile.service";
-import { ProfileController } from "./profile.controller";
-import { ProfileRepository } from "./profile.repository";
+import { AddressController } from "./address.controller";
+import { AddressService } from "./address.service";
+import { AddressRepository } from "./address.repository";
 
 @Module({
-    controllers: [ProfileController],
-    providers: [ProfileService, ProfileRepository],
+    controllers: [AddressController],
+    providers: [AddressService, AddressRepository],
 })
-export class ProfileModule {}
+export class AddressModule {}
