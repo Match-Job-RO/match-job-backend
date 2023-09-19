@@ -44,7 +44,7 @@ export class ProfileRepository {
         updateProfileDto: UpdateProfileDto,
     ): Promise<Profile> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const updatedUser: Profile = await prismaInstance.profile.update({
+        const updatedProfile: Profile = await prismaInstance.profile.update({
             where: {
                 id: id,
             },
@@ -57,7 +57,7 @@ export class ProfileRepository {
             },
         });
 
-        return updatedUser;
+        return updatedProfile;
     }
 
     async remove(id: number): Promise<Profile> {
