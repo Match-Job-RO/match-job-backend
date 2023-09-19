@@ -37,6 +37,17 @@ export class UserRepository {
         return user;
     }
 
+    async findOneByEmail(email: string): Promise<User> {
+        const prismaInstance: PrismaClient = PrismaInstance.getInstance();
+        const user: User = await prismaInstance.user.findUnique({
+            where: {
+                email: email,
+            },
+        });
+
+        return user;
+    }
+
     async update(id: number, updateUserDto: UpdateUserDto): Promise<User> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
         const updatedUser: User = await prismaInstance.user.update({
