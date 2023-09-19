@@ -28,11 +28,11 @@ export class ProfileService {
         id: number,
         updateProfileDto: UpdateProfileDto,
     ): Promise<Profile> {
-        const updatedUser: Profile = await this.profileRepository.update(
+        const updatedProfile: Profile = await this.profileRepository.update(
             id,
             updateProfileDto,
         );
-        return updatedUser;
+        return updatedProfile;
     }
 
     async remove(id: number): Promise<Profile> {
