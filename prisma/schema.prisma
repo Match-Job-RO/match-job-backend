@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profiles  Profile?
+}
+
+model Profile {
+  id           Int       @id @default(autoincrement())
+  bio          String?
+  image        String?
+  phone        String?
+  userId       Int       @unique
+  genre        GenreEnum
+  address      Address[]
+  posts        Post[]
+  user         User      @relation(fields: [userId], references: [id])
+  followedTags Tag[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model Post {
+  id        Int          @id @default(autoincrement())
+  title     String
+  content   String
+  postType  PostTypeEnum
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  profileId Int
+  profile   Profile      @relation(fields: [profileId], references: [id])
+  tags      Tag[]
+}
+
+model Tag {
+  id        Int      @id @default(autoincrement())
+  name      String
+  posts     Post[]
+  profiles  Profile[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Address {
+  id           Int      @id @default(autoincrement())
+  street       String
+  number       String
+  neighborhood String
+  postalCode   String
+  profileId    Int
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  profile      Profile  @relation(fields: [profileId], references: [id])
+}
+
+enum GenreEnum {
+  Male
+  Female
+}
+
+enum PostTypeEnum {
+  Job
+  Service
+}
