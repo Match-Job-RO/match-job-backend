@@ -14,6 +14,9 @@ export class PostRepository {
                 content: createPostDto.content,
                 postType: createPostDto.postType,
                 profileId: createPostDto.profileId,
+                tags: {
+                    connect: createPostDto.tags,
+                },
             },
         });
 
