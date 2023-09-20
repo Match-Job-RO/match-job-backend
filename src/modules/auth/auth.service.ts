@@ -4,6 +4,7 @@ import { HashUtil } from "src/shared/utils/hash.util";
 import { UserRepository } from "../user/user.repository";
 import { LoginDto } from "./dto/login.dto";
 import { JwtService } from "@nestjs/jwt";
+import { TOmitUserWithPassword } from "src/shared/types/user.type";
 
 @Injectable()
 export class LoginService {
@@ -12,9 +13,8 @@ export class LoginService {
         private jwtService: JwtService,
     ) {}
     async create(loginDto: LoginDto): Promise<string> {
-        const user: User = await this.userRepository.findOneByEmail(
-            loginDto.email,
-        );
+        const user: TOmitUserWithPassword =
+            await this.userRepository.findOneByEmail(loginDto.email);
 
         const isCorrectPassword: boolean = await HashUtil.comparePassword(
             loginDto.password,

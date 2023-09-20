@@ -1,25 +1,26 @@
 import { Injectable } from "@nestjs/common";
-import { Address } from "@prisma/client";
 import { AddressRepository } from "./address.repository";
 import { CreateAddressDto } from "./dto/create-address.dto";
 import { UpdateAddressDto } from "./dto/update-address.dto";
+import { TOmitAddress } from "src/shared/types/address.type";
 
 @Injectable()
 export class AddressService {
     constructor(private readonly addressRepository: AddressRepository) {}
-    async create(createAddressDto: CreateAddressDto): Promise<Address> {
-        const createdAddress: Address =
+    async create(createAddressDto: CreateAddressDto): Promise<TOmitAddress> {
+        const createdAddress: TOmitAddress =
             await this.addressRepository.create(createAddressDto);
         return createdAddress;
     }
 
-    async findAll(): Promise<Address[]> {
-        const allAddress: Address[] = await this.addressRepository.findAll();
+    async findAll(): Promise<TOmitAddress[]> {
+        const allAddress: TOmitAddress[] =
+            await this.addressRepository.findAll();
         return allAddress;
     }
 
-    async findOne(id: number): Promise<Address> {
-        const address: Address = await this.addressRepository.findOne(id);
+    async findOne(id: number): Promise<TOmitAddress> {
+        const address: TOmitAddress = await this.addressRepository.findOne(id);
 
         return address;
     }
@@ -27,16 +28,15 @@ export class AddressService {
     async update(
         id: number,
         updateAddressDto: UpdateAddressDto,
-    ): Promise<Address> {
-        const updatedAddress: Address = await this.addressRepository.update(
-            id,
-            updateAddressDto,
-        );
+    ): Promise<TOmitAddress> {
+        const updatedAddress: TOmitAddress =
+            await this.addressRepository.update(id, updateAddressDto);
         return updatedAddress;
     }
 
-    async remove(id: number): Promise<Address> {
-        const deletedAddress: Address = await this.addressRepository.remove(id);
+    async remove(id: number): Promise<TOmitAddress> {
+        const deletedAddress: TOmitAddress =
+            await this.addressRepository.remove(id);
         return deletedAddress;
     }
 }
