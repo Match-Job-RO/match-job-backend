@@ -8,7 +8,7 @@ import { UpdatePostDto } from "./dto/update-post.dto";
 export class PostRepository {
     async create(createPostDto: CreatePostDto): Promise<Post> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const createPost: Post = await prismaInstance.post.create({
+        const createdPost: Post = await prismaInstance.post.create({
             data: {
                 title: createPostDto.title,
                 content: createPostDto.content,
@@ -17,7 +17,7 @@ export class PostRepository {
             },
         });
 
-        return createPost;
+        return createdPost;
     }
 
     async findAll(): Promise<Post[]> {
@@ -40,7 +40,7 @@ export class PostRepository {
 
     async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const updatePost: Post = await prismaInstance.post.update({
+        const updatedPost: Post = await prismaInstance.post.update({
             where: {
                 id: id,
             },
@@ -52,17 +52,17 @@ export class PostRepository {
             },
         });
 
-        return updatePost;
+        return updatedPost;
     }
 
     async remove(id: number): Promise<Post> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const deletePost: Post = await prismaInstance.post.delete({
+        const deletedPost: Post = await prismaInstance.post.delete({
             where: {
                 id: id,
             },
         });
 
-        return deletePost;
+        return deletedPost;
     }
 }
