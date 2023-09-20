@@ -1,14 +1,15 @@
 import { Injectable } from "@nestjs/common";
 import { CreatePostDto } from "./dto/create-post.dto";
-import { Post, PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
 import PrismaInstance from "src/shared/utils/prisma.client";
 import { UpdatePostDto } from "./dto/update-post.dto";
+import { TOmitPost } from "src/shared/types/post.type";
 
 @Injectable()
 export class PostRepository {
-    async create(createPostDto: CreatePostDto): Promise<Post> {
+    async create(createPostDto: CreatePostDto): Promise<TOmitPost> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const createdPost: Post = await prismaInstance.post.create({
+        const createdPost: TOmitPost = await prismaInstance.post.create({
             data: {
                 title: createPostDto.title,
                 content: createPostDto.content,
@@ -18,32 +19,60 @@ export class PostRepository {
                     connect: createPostDto.tags,
                 },
             },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                postType: true,
+                profileId: true,
+                tags: true,
+                profile: true,
+            },
         });
 
         return createdPost;
     }
 
-    async findAll(): Promise<Post[]> {
+    async findAll(): Promise<TOmitPost[]> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const posts: Post[] = await prismaInstance.post.findMany();
+        const posts: TOmitPost[] = await prismaInstance.post.findMany({
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                postType: true,
+                profileId: true,
+                tags: true,
+                profile: true,
+            },
+        });
 
         return posts;
     }
 
-    async findOne(id: number): Promise<Post> {
+    async findOne(id: number): Promise<TOmitPost> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const post: Post = await prismaInstance.post.findUnique({
+        const post: TOmitPost = await prismaInstance.post.findUnique({
             where: {
                 id: id,
+            },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                postType: true,
+                profileId: true,
+                tags: true,
+                profile: true,
             },
         });
 
         return post;
     }
 
-    async update(id: number, updatePostDto: UpdatePostDto): Promise<Post> {
+    async update(id: number, updatePostDto: UpdatePostDto): Promise<TOmitPost> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const updatedPost: Post = await prismaInstance.post.update({
+        const updatedPost: TOmitPost = await prismaInstance.post.update({
             where: {
                 id: id,
             },
@@ -53,16 +82,34 @@ export class PostRepository {
                 postType: updatePostDto.postType,
                 profileId: updatePostDto.profileId,
             },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                postType: true,
+                profileId: true,
+                tags: true,
+                profile: true,
+            },
         });
 
         return updatedPost;
     }
 
-    async remove(id: number): Promise<Post> {
+    async remove(id: number): Promise<TOmitPost> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const deletedPost: Post = await prismaInstance.post.delete({
+        const deletedPost: TOmitPost = await prismaInstance.post.delete({
             where: {
                 id: id,
+            },
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                postType: true,
+                profileId: true,
+                tags: true,
+                profile: true,
             },
         });
 
