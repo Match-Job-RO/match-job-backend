@@ -6,9 +6,17 @@ import { ProfileModule } from "./modules/profile/profile.module";
 import { AddressModule } from "./modules/address/address.module";
 import { AuthModule } from "./modules/auth/auth.module";
 import { PostModule } from "./modules/post/post.module";
+import { TagModule } from "./modules/tag/tag.module";
 
 @Module({
-    imports: [UserModule, ProfileModule, AddressModule, AuthModule, PostModule],
+    imports: [
+        UserModule,
+        ProfileModule,
+        AddressModule,
+        AuthModule,
+        PostModule,
+        TagModule,
+    ],
     controllers: [AppController],
     providers: [AppService],
 })
