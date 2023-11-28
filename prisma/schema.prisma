@@ -23,14 +23,14 @@ model Profile {
   bio          String?
   image        String?
   phone        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
   userId       Int       @unique
   genre        GenreEnum
   address      Address[]
   posts        Post[]
   user         User      @relation(fields: [userId], references: [id])
-  followedTags Tag[]
-  createdAt    DateTime         @default(now())
-  updatedAt    DateTime         @updatedAt
+  followedTags Tag[]     @relation("ProfileToTag")
 }
 
 model Post {
@@ -42,16 +42,16 @@ model Post {
   updatedAt DateTime     @updatedAt
   profileId Int
   profile   Profile      @relation(fields: [profileId], references: [id])
-  tags      Tag[]
+  tags      Tag[]        @relation("PostToTag")
 }
 
 model Tag {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  posts     Post[]
-  profiles  Profile[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  posts     Post[]    @relation("PostToTag")
+  profiles  Profile[] @relation("ProfileToTag")
 }
 
 model Address {
