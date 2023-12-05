@@ -35,6 +35,12 @@ export class ProfileController {
     }
 
     @UseGuards(AuthGuard)
+    @Get("/user/:id")
+    findOneByUserId(@Param("id") id: string) {
+        return this.profileService.findOneByUserId(+id);
+    }
+
+    @UseGuards(AuthGuard)
     @Patch(":id")
     update(
         @Param("id") id: string,

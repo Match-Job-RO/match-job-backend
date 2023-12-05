@@ -66,6 +66,29 @@ export class ProfileRepository {
         return profile;
     }
 
+    async findOneByUserId(id: number): Promise<TOmitProfile> {
+        const prismaInstance: PrismaClient = PrismaInstance.getInstance();
+        const profile: TOmitProfile = await prismaInstance.profile.findUnique({
+            where: {
+                userId: id,
+            },
+            select: {
+                id: true,
+                bio: true,
+                genre: true,
+                image: true,
+                phone: true,
+                userId: true,
+                user: true,
+                followedTags: true,
+                posts: true,
+                address: true,
+            },
+        });
+
+        return profile;
+    }
+
     async update(
         id: number,
         updateProfileDto: UpdateProfileDto,

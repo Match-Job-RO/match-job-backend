@@ -25,6 +25,13 @@ export class ProfileService {
         return profile;
     }
 
+    async findOneByUserId(id: number): Promise<TOmitProfile> {
+        const profile: TOmitProfile =
+            await this.profileRepository.findOneByUserId(id);
+
+        return profile;
+    }
+
     async update(
         id: number,
         updateProfileDto: UpdateProfileDto,
