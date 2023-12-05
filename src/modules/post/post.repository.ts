@@ -45,6 +45,7 @@ export class PostRepository {
                 tags: true,
                 profile: {
                     select: {
+                        phone: true,
                         userId: true,
                         user: {
                             select: {

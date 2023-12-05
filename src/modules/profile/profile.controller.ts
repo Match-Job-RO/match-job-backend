@@ -35,7 +35,7 @@ export class ProfileController {
     }
 
     @UseGuards(AuthGuard)
-    @Get("/user/:id")
+    @Get("user/:id")
     findOneByUserId(@Param("id") id: string) {
         return this.profileService.findOneByUserId(+id);
     }

@@ -68,7 +68,7 @@ export class ProfileRepository {
 
     async findOneByUserId(id: number): Promise<TOmitProfile> {
         const prismaInstance: PrismaClient = PrismaInstance.getInstance();
-        const profile: TOmitProfile = await prismaInstance.profile.findUnique({
+        const profile: TOmitProfile = await prismaInstance.profile.findFirst({
             where: {
                 userId: id,
             },
