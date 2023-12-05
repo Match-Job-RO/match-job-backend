@@ -6,13 +6,18 @@ import { LoginDto } from "./dto/login.dto";
 import { JwtService } from "@nestjs/jwt";
 import { TOmitUserWithPassword } from "src/shared/types/user.type";
 
+export interface ILoginResponse {
+    userId: number;
+    token: string;
+}
+
 @Injectable()
 export class LoginService {
     constructor(
         private readonly userRepository: UserRepository,
         private jwtService: JwtService,
     ) {}
-    async create(loginDto: LoginDto): Promise<string> {
+    async create(loginDto: LoginDto): Promise<ILoginResponse> {
         const user: TOmitUserWithPassword =
             await this.userRepository.findOneByEmail(loginDto.email);
 
@@ -26,6 +31,7 @@ export class LoginService {
 
         const payload = { email: user.email, sub: user.id };
         const token: string = this.jwtService.sign(payload);
-        return token;
+        const userId = user.id;
+        return { userId, token };
     }
 }

@@ -43,7 +43,17 @@ export class PostRepository {
                 postType: true,
                 profileId: true,
                 tags: true,
-                profile: true,
+                profile: {
+                    select: {
+                        phone: true,
+                        userId: true,
+                        user: {
+                            select: {
+                                name: true,
+                            },
+                        },
+                    },
+                },
             },
         });
 
